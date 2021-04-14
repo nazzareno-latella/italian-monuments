@@ -1,0 +1,60 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<title th:text="${q}"></title>
+<link rel="stylesheet" href="/css/search.css">
+</head>
+
+<body>
+	<div id="header">
+		<div id="topbar">
+			<img id="searchbarimage" src="/images/logo_s.png" />
+			<div id="searchbar">
+				<input id="searchbartext" readonly="readonly" type="text" th:value="${q}" />
+			</div>
+		</div>
+		<div id="optionsbar">
+			<ul id="optionsmenu1">
+				<li id="optionsmenuactive">All</li>
+				<li>News</li>
+				<li>Videos</li>
+				<li>Images</li>
+				<li>Maps</li>
+				<li>More</li>
+			</ul>
+
+			<ul id="optionsmenu2">
+				<li>Settings</li>
+				<li>Tools</li>
+			</ul>
+		</div>
+	</div>
+	<div id="searchresultsarea">
+		<p id="searchresultsnumber">
+			<span th:text="${size}"></span> results (<span th:text="${seconds}"></span> seconds)
+		</p>
+		<div class="searchresult" th:each="monument : ${monuments}">
+			<h2>
+				<span th:if="${monument.name == 'ND'}"><em>senza nome</em></span>
+    			<span th:unless="${monument.name == 'ND'}" th:text="${monument.name}"></span>
+			</h2>
+			<a th:text="${monument.type}"></a>
+			<p>
+				Monumento situato nel comune di <span th:text="${monument.municipality}"></span>, in provincia di <span th:text="${monument.province}"></span> (<span th:text="${monument.region}"></span>)
+			</p>
+			<div>
+				<button th:onclick="|map('${monument.latitude}', '${monument.longitude}')|">Show map</button>
+			</div>			
+		</div>
+		<br>
+	</div>
+
+	<script th:inline="javascript">
+		function map(latitude, longitude) {
+			window.open("https://www.google.it/maps/place/" + latitude + "," + longitude, "_blank");
+		}
+	</script>
+</body>
+
+</html>
