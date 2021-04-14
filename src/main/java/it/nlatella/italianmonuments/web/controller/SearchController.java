@@ -22,9 +22,9 @@ public class SearchController {
 		this.monumentService = monumentService;
 	}
 
-	@GetMapping("/monuments")
-	public void monuments(Model model) {
-
+	@GetMapping({ "/", "/monuments" })
+	public String monuments(Model model) {
+		return "monuments";
 	}
 
 	@GetMapping("/search")
